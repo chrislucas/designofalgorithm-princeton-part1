@@ -17,4 +17,8 @@ public class WeightedQuickUnionPathCompression {
     }
 
 
+    public static void main(String[] args) {
+
+    }
+
 }
