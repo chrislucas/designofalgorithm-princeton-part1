@@ -1,4 +1,4 @@
-/******************************************************************************
+package project; /******************************************************************************
  *  Compilation:  javac PercolationVisualizer.java
  *  Execution:    java PercolationVisualizer input.txt
  *  Dependencies: Percolation.java
@@ -17,15 +17,16 @@
  ******************************************************************************/
 
 import java.awt.Font;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
 
 import edu.princeton.cs.algs4.In;
 import edu.princeton.cs.algs4.StdDraw;
+import project.Percolation;
 
 public class PercolationVisualizer {
-
     // delay in miliseconds (controls animation speed)
-    private static final int DELAY = 100;
-
+    private static final int DELAY = 0;
     // draw n-by-n percolation system
     public static void draw(Percolation perc, int n) {
         StdDraw.clear();
@@ -33,7 +34,6 @@ public class PercolationVisualizer {
         StdDraw.setXscale(-0.05*n, 1.05*n);
         StdDraw.setYscale(-0.05*n, 1.05*n);   // leave a border to write text
         StdDraw.filledSquare(n/2.0, n/2.0, n/2.0);
-
         // draw n-by-n grid
         int opened = 0;
         for (int row = 1; row <= n; row++) {
@@ -51,23 +51,22 @@ public class PercolationVisualizer {
                 StdDraw.filledSquare(col - 0.5, n - row + 0.5, 0.45);
             }
         }
-
         // write status text
         StdDraw.setFont(new Font("SansSerif", Font.PLAIN, 12));
         StdDraw.setPenColor(StdDraw.BLACK);
         StdDraw.text(0.25*n, -0.025*n, opened + " open sites");
-        if (perc.percolates()) StdDraw.text(0.75*n, -0.025*n, "percolates");
-        else                   StdDraw.text(0.75*n, -0.025*n, "does not percolate");
-
+        if (perc.percolates())
+            StdDraw.text(0.75*n, -0.025*n, "percolates");
+        else
+            StdDraw.text(0.75*n, -0.025*n, "does not percolate");
     }
 
     public static void main(String[] args) {
-        In in = new In(args[0]);      // input file
+        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
+        In in = new In("percolation-testing/percolation/jerry47.txt");      // input file
         int n = in.readInt();         // n-by-n percolation system
-
         // turn on animation mode
         StdDraw.enableDoubleBuffering();
-
         // repeatedly read in sites to open and draw resulting system
         Percolation perc = new Percolation(n);
         draw(perc, n);
@@ -81,5 +80,6 @@ public class PercolationVisualizer {
             StdDraw.show();
             StdDraw.pause(DELAY);
         }
+        return;
     }
 }

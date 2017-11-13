@@ -5,7 +5,10 @@ import edu.princeton.cs.algs4.WeightedQuickUnionUF;
 public class Percolation {
 
     private WeightedQuickUnionUF wqu;
-    private int qSites,  virtualTop = 0, virtualBottom, openSites = 0;
+    private int qSites
+            ,  virtualTop = 0
+            , virtualBottom, qOpenSites = 0;
+    private boolean openSites [];
 
     private static final int pos [][] = {
          {0,-1} // left
@@ -15,9 +18,12 @@ public class Percolation {
     };
 
     public Percolation(int s) {
-        wqu         = new WeightedQuickUnionUF(s);
-        qSites      = s;
-        virtualTop  = s*s+1;
+        if(s <= 0)
+            throw new IllegalArgumentException();
+        wqu             = new WeightedQuickUnionUF(s*s+2);
+        qSites          = s;
+        virtualBottom   = s*s+1;
+        openSites       = new boolean[s*s+2];
     }
 
     /**
@@ -38,7 +44,7 @@ public class Percolation {
      * */
 
     private boolean isValid(int i, int j) {
-        return i > 0 && i < qSites && j > 0 && j < qSites;
+        return i > 0 && i <= qSites && j > 0 && j <= qSites;
     }
 
     private int getIndex(int i, int j) {
@@ -46,23 +52,54 @@ public class Percolation {
     }
 
     public void open(int p, int q) {
+        if(!isValid(p, q))
+            throw new IllegalArgumentException();
+        if(!isOpen(p, q)) {
+            int idx = getIndex(p, q);
+            markOpenSite(idx);
+            if(p == 1) {
+                wqu.union(virtualTop, idx);
+            }
 
+            else if(p == qSites) {
+                wqu.union(virtualBottom, idx);
+            }
+
+            for(int i=0; i<pos.length; i++) {
+                int np = pos[i][0] + p;
+                int nq = pos[i][1] + q;
+                if(isValid(np, nq) && isOpen(np, nq)) {
+                    wqu.union(getIndex(np, nq), idx);
+                }
+            }
+        }
+    }
+
+    private void markOpenSite(int idx) {
+        openSites[idx] = true;
+        qOpenSites++;
     }
 
     public boolean isOpen(int p, int q) {
-        return false;
+        if(!isValid(p, q))
+            throw new IllegalArgumentException();
+        return openSites[getIndex(p, q)];
     }
 
     public boolean isFull(int p, int q) {
-        return false;
+        if(!isValid(p, q))
+            throw new IllegalArgumentException();
+        if(!isOpen(p, q))
+            return false;
+        return wqu.connected(getIndex(p, q), 0);
     }
 
     public int numberOfOpenSites() {
-        return openSites;
+        return qOpenSites ;
     }
 
     public boolean percolates() {
-        return wqu.connected(virtualBottom, virtualTop);
+        return wqu.connected(virtualTop, virtualBottom);
     }
 
     public static void main(String[] args) { }
