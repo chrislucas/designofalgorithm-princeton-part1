@@ -17,21 +17,22 @@ public class QueueWithLinkedList<T> {
     private int size = 0;
 
     public void enqueue(T data) {
-        Node current = new Node(data);
+        Node oldest = last;
+        last = new Node(data);
         if(isEmpty()) {
-            last = current;
             first = last;
         }
         else {
-            Node oldest = last;
-            oldest.next = current;
+            oldest.next = last;
         }
+        size++;
     }
 
     public void dequeue() {
-        first = first.next;
+        first = first.next; // sobrescreve o primeiro da lista (FIFO)
         if(isEmpty())
             last = null;
+        size--;
     }
 
     public boolean isEmpty() {
@@ -44,8 +45,8 @@ public class QueueWithLinkedList<T> {
         for(int i=0; i<10; i++)
             qwll.enqueue(i);
 
-        //while (!qwll.isEmpty())
-            //qwll.dequeue();
+        while (!qwll.isEmpty())
+            qwll.dequeue();
     }
 
 }
