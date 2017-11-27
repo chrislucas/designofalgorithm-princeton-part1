@@ -1,6 +1,6 @@
 package impl;
 
-public class StackWithLinkedList<T> {
+public class ImplStackWithLinkedList<T> {
 
     public class Node {
         T data;
@@ -18,7 +18,7 @@ public class StackWithLinkedList<T> {
     private Node first;
     private int size;
 
-    StackWithLinkedList() {
+    ImplStackWithLinkedList() {
         this.size = 0;
     }
 
@@ -45,7 +45,7 @@ public class StackWithLinkedList<T> {
 
 
     public static void main(String[] args) {
-        StackWithLinkedList<Integer> swld = new StackWithLinkedList<>();
+        ImplStackWithLinkedList<Integer> swld = new ImplStackWithLinkedList<>();
         for(int i=0; i<10; i++)
             swld.push(i);
 
