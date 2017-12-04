@@ -10,16 +10,6 @@ import java.util.Random;
  * */
 public class InsertionSort {
 
-    public static Comparable [] sample(int p, int q) {
-        Random random = new Random();
-        int limit = Math.abs(p-q)+1;
-        int min = Math.min(p, q);
-        Comparable [] array = new Integer[limit];
-        for(int i=0; i<limit; i++) {
-            array[i] = random.nextInt(limit) + min + 1;
-        }
-        return array;
-    }
 
 
     public static boolean lessThan(Comparable a, Comparable b) {
@@ -38,7 +28,7 @@ public class InsertionSort {
      *
      * QUando caimos no caso do array estar ordenado
      * de forma ascendente e se for assim que o queremos,
-     * o algorimto InsertionSor leva vantagem sobre o SelectionSort
+     * o algorimto InsertionSort leva vantagem sobre o SelectionSort
      * Pois faz menos comparacoes e trocas, fazendo exatamente N-1 comparacoes
      * e nenhuma troca, diferente do SelectionSort que fara N^2 comparacoes
      *
@@ -69,7 +59,7 @@ public class InsertionSort {
 
 
     public static void main(String[] args) {
-        Comparable [] array = sample(1,100);
+        Comparable [] array = GenerateSamples.sample(1,100);
         print(array);
         sort(array);
         print(array);

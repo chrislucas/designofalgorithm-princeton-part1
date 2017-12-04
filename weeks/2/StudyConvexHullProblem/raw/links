@@ -1,0 +1,27 @@
+http://www.geeksforgeeks.org/convex-hull-set-1-jarviss-algorithm-or-wrapping/
+
+http://www.geeksforgeeks.org/quickhull-algorithm-convex-hull/
+
+https://en.wikibooks.org/wiki/Algorithm_Implementation/Geometry/Convex_hull/Monotone_chain
+
+http://geomalgorithms.com/a10-_hull-1.html
+
+http://www.geeksforgeeks.org/convex-hull-set-2-graham-scan/
+
+https://algs4.cs.princeton.edu/99hull/
+
+Pesquisar por
+farthest pair of points problem
+http://www.spoj.com/problems/DISTANCE/
+http://codeforces.com/blog/entry/17617
+https://mukeshiiitm.wordpress.com/2008/05/27/find-the-farthest-pair-of-points/
+https://github.com/kevintpeng/Farthest-Points-in-a-Set
+https://apps.topcoder.com/forums/;jsessionid=320790D819DABF592C09B6E84F6C2D91?module=Thread&threadID=578803&start=15&mc=39#820860
+
+Impl farthest pair
+https://algs4.cs.princeton.edu/99hull/FarthestPair.java.html
+https://algs4.cs.princeton.edu/99hull/InteractiveFarthestPair.java.html
+
+Closest pair of points problem
+https://en.wikipedia.org/wiki/Closest_pair_of_points_problem
+http://www.geeksforgeeks.org/closest-pair-of-points/
