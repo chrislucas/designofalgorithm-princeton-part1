@@ -102,15 +102,20 @@ public class Deque<Item> implements Iterable<Item>  {
 
     @Override
     public Iterator<Item> iterator() {
+
         return new Iterator<Item>() {
+            private Node firstNode = first;
+
             @Override
             public boolean hasNext() {
-                return last == null;
+                return firstNode != null;
             }
 
             @Override
             public Item next() {
-                return null;
+                Item data = firstNode.data;
+                firstNode = firstNode.next;
+                return data;
             }
 
             @Override
@@ -137,7 +142,6 @@ public class Deque<Item> implements Iterable<Item>  {
             System.out.println(deque.removeLast());
         }
     }
-
     private static void test2() {
         Deque<String> deque = new Deque<>();
         deque.addFirst("Jenifer");
@@ -155,7 +159,6 @@ public class Deque<Item> implements Iterable<Item>  {
             System.out.println(deque.removeFirst());;
         }
     }
-
     private static void test3() {
         Deque<String> deque = new Deque<>();
         deque.addFirst("Talita");
@@ -168,10 +171,21 @@ public class Deque<Item> implements Iterable<Item>  {
             System.out.println(deque.removeFirst());
         }
     }
+    private static void test4() {
+        Deque<String> deque = new Deque<>();
+        deque.addFirst("Talita");
+        deque.addLast("Maria");
+        deque.addFirst("Roberta");
+        deque.addLast("Joana");
+        deque.addFirst("Miriam");
+        deque.addLast("Marta");
+        Iterator<String> iterator = deque.iterator();
+        while (iterator.hasNext()) {
+            System.out.println(iterator.next());
+        }
+    }
 
     public static void main(String[] args) {
-        //test();
-        //test2();
-        test3();
+        test4();
     }
 }
