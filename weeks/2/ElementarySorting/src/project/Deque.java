@@ -113,6 +113,8 @@ public class Deque<Item> implements Iterable<Item>  {
 
             @Override
             public Item next() {
+                if(firstNode == null)
+                    throw new NoSuchElementException();
                 Item data = firstNode.data;
                 firstNode = firstNode.next;
                 return data;
