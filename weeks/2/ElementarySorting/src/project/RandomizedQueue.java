@@ -101,7 +101,9 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
 
     private int getRandomIndex() {
        //return StdRandom.uniform(0, controlSize);
-       return StdRandom.uniform(head == 0 ? 1 : head, tail == 0 ? 2 : tail);
+       //return StdRandom.uniform(head == 0 ? 1 : head, tail == 0 ? 2 : tail);
+        int min = Math.min(head == 0 ? 1 : head, tail == 0 ? 2 : tail);
+        return StdRandom.uniform(min, controlSize);
     }
 
     private int getRandomIndex(int p, int q) {
@@ -185,14 +187,18 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
         queue.dequeue();
         while (!queue.isEmpty())
             System.out.println(queue.dequeue());
-        queue.enqueue("Milena");
-        queue.enqueue("Amanda");
+        queue.enqueue("Claudia");
+        queue.enqueue("Beatriz");
+        queue.enqueue("Juliana");
+        queue.enqueue("Denise");
+        queue.enqueue("Antonia");
+        queue.enqueue("Bianca");
         while (!queue.isEmpty())
             System.out.println(queue.dequeue());
     }
 
     public static void main(String[] args) {
         //test();
-        //test1();
+        test1();
     }
 }
