@@ -11,9 +11,9 @@ public class Merge {
         return a.compareTo(b) < 0;
     }
 
-    public static int merge(Comparable [] data, Comparable[] aux
+    public static long merge(Comparable [] data, Comparable[] aux
             , int lo, int mid, int hi) {
-        int counter = 0;
+        long counter = 0;
         for (int i = lo; i <=hi ; i++)
             aux[i] = data[i];
         int i = lo              // subarray da esquerda
@@ -62,8 +62,8 @@ public class Merge {
         return counter;
     }
 
-    public static int sort(Comparable [] data, Comparable [] aux, int lo, int hi) {
-        int acc = 0;
+    public static long sort(Comparable [] data, Comparable [] aux, int lo, int hi) {
+        long acc = 0;
         if(hi <= lo)
             return acc;
         int mid = (hi - lo) / 2 + lo;
@@ -100,9 +100,9 @@ public class Merge {
             ,{1,5,4,8,10,2,6,9,3,7}
             ,{2,1,3,1,2}
         };
-        int idx = 2;
+        int idx = 1;
         print(ints[idx]);
-        int inversions = sort(ints[idx], new Comparable[ints[idx].length], 0, ints[idx].length-1);
+        long inversions = sort(ints[idx], new Comparable[ints[idx].length], 0, ints[idx].length-1);
         System.out.printf("Numero de inversoes %d\n", inversions);
         print(ints[idx]);
     }

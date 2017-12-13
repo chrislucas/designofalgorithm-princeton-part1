@@ -19,8 +19,8 @@ public class MergeCountingInversions {
         return a < b;
     }
 
-    public static int merge(int [] array, int [] aux, int lo, int mid, int hi) {
-        int counter = 0;
+    public static long merge(int [] array, int [] aux, int lo, int mid, int hi) {
+        long counter = 0;
         /**
          * Criando um array auxiliar a partir de um subarray de subproblema
          * do algoritmo mergesort
@@ -68,8 +68,8 @@ public class MergeCountingInversions {
         return counter;
     }
 
-    public static int countInversion(int [] array, int [] aux, int lo, int hi) {
-        int acc = 0;
+    public static long countInversion(int [] array, int [] aux, int lo, int hi) {
+        long acc = 0;
         if(hi<=lo)
             return acc;
         int mid = (hi - lo) / 2 + lo;
