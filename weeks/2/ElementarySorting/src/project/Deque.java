@@ -5,7 +5,7 @@ import java.util.NoSuchElementException;
 
 public class Deque<Item> implements Iterable<Item>  {
     private int controlSize = 0;
-    public class Node {
+    private class Node {
         Item data;
         Node next, parent;
         public Node(Item data) { this.data = data; }
@@ -19,10 +19,9 @@ public class Deque<Item> implements Iterable<Item>  {
         }
     }
 
-    public Node first, last;
+    private Node first, last;
 
-    public Deque() {
-    }
+    public Deque() { }
 
     public boolean isEmpty() {
         return first == null;

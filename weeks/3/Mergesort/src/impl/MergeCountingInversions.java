@@ -7,7 +7,7 @@ import java.util.StringTokenizer;
 
 /**
  * https://www.hackerrank.com/challenges/ctci-merge-sort/problem
- *
+ * DONE
  * */
 
 public class MergeCountingInversions {
@@ -19,8 +19,8 @@ public class MergeCountingInversions {
         return a < b;
     }
 
-    public static int merge(int [] array, int [] aux, int lo, int mid, int hi) {
-        int counter = 0;
+    public static long merge(int [] array, int [] aux, int lo, int mid, int hi) {
+        long counter = 0;
         /**
          * Criando um array auxiliar a partir de um subarray de subproblema
          * do algoritmo mergesort
@@ -55,25 +55,26 @@ public class MergeCountingInversions {
              * que eh menor que um elemento do lado esquerdo, devemos fazer a troca
              * */
             else if(lessThan(aux[j], aux[i])) {
-                array[k] = array[j++];
+                array[k] = aux[j++];
                 counter += (mid-i+1);
             }
             /**
              * Aqui os valores do lado esquerdo do subarray sao menores que
              * o valor subarray[mid] entao so preciso reposiciona-los
              */
-            else
-                array[k] = array[i++];
+            else {
+                array[k] = aux[i++];
+            }
         }
         return counter;
     }
 
-    public static int countInversion(int [] array, int [] aux, int lo, int hi) {
-        int acc = 0;
+    public static long countInversion(int [] array, int [] aux, int lo, int hi) {
+        long acc = 0;
         if(hi<=lo)
             return acc;
         int mid = (hi - lo) / 2 + lo;
-        acc = countInversion(array, aux, lo, mid);
+        acc += countInversion(array, aux, lo, mid);
         acc += countInversion(array, aux, mid+1, hi);
         acc += merge(array, aux, lo, mid, hi);
         return acc;
