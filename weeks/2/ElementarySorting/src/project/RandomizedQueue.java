@@ -6,7 +6,7 @@ import java.util.Iterator;
 import java.util.NoSuchElementException;
 
 public class RandomizedQueue<Item> implements Iterable<Item> {
-    Item [] data;
+    private Item [] data;
     private int controlSize, head, tail;
     public RandomizedQueue() {
         data = (Item[]) new Object[1];
@@ -76,8 +76,10 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
      *         data[head++] = null;
      *         if(head == data.length)
      *         head = 0;
+     *         Essa implementacao me pareceu a mais correta pois ao remover
+     *         itens do meio da fila
      * */
-    public Item dequeue() {
+    private Item dequeue2() {
         if(isEmpty())
             throw new NoSuchElementException();
         int indexRandom = controlSize > 1 ? getRandomIndex() : 0;
@@ -99,11 +101,34 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
         return item;
     }
 
+    public Item dequeue() {
+        if(isEmpty())
+            throw new NoSuchElementException();
+        int indexRandom = controlSize > 1 ? getRandomIndex() : tail;
+        controlSize--;
+        if(indexRandom == head) {
+            head++;
+            if(head == data.length)
+                head = 0;
+        }
+        Item item = null;
+        do {
+            item = data[indexRandom];
+            indexRandom = controlSize > 1 ? getRandomIndex() : tail;
+        } while (item == null);
+        data[indexRandom] = data[tail];
+        data[tail--] = null;
+        tail = controlSize;
+        if(controlSize > 0 && controlSize == data.length / 4)
+            resize(data.length/2);
+        return item;
+    }
+
     private int getRandomIndex() {
        //return StdRandom.uniform(0, controlSize);
        //return StdRandom.uniform(head == 0 ? 1 : head, tail == 0 ? 2 : tail);
         int min = Math.min(head == 0 ? 1 : head, tail == 0 ? 2 : tail);
-        return StdRandom.uniform(min, controlSize);
+        return StdRandom.uniform(min, controlSize+1);
     }
 
     private int getRandomIndex(int p, int q) {
@@ -113,10 +138,16 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
     public Item sample() {
         if(isEmpty())
             throw new NoSuchElementException();
-        return data[getRandomIndex()];
+        Item sampl  = null;
+        int attempts = 0;
+        while (sampl == null || attempts < controlSize) {
+            sampl = data[getRandomIndex()];
+            attempts++;
+        }
+        return sampl;
     }
 
-    public int [] shuffle() {
+    private int [] shuffle() {
         int [] indexes = new int[controlSize];
         for(int i=0; i<controlSize; i++) {
             indexes[i] = i;
@@ -154,7 +185,7 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
         };
     }
 
-    public static void test() {
+    private static void test() {
         RandomizedQueue<Integer> queue = new RandomizedQueue<>();
         for(int i=0; i<(1<<4)+1; i++)
             queue.enqueue(i);
@@ -170,7 +201,7 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
         }
     }
 
-    public static void test1() {
+    private static void test1() {
         RandomizedQueue<String> queue = new RandomizedQueue<>();
         queue.enqueue("Maria");
         queue.enqueue("Marta");
