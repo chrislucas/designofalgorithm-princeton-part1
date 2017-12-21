@@ -10,24 +10,23 @@ public class Point2f {
         this.y = y;
     }
 
-    public double diffY(Point2f pb) {
-        return this.y - pb.y;
-    }
-
+    public double diffY(Point2f pb) { return pb.y - this.y; }
     public double diffX(Point2f pb) {
-        return this.x  - pb.x;
+        return pb.x - this.x;
     }
-
     public boolean almostEquals(double a, double b) {
         return Math.abs(a-b) < EPS;
     }
-
     public double getX() {
         return x;
     }
-
     public double getY() {
         return y;
+    }
+
+    @Override
+    public String toString() {
+        return String.format("Point2f (%.3f, %.3f)", x, y);
     }
 
     /**
@@ -52,13 +51,21 @@ public class Point2f {
         return Math.sqrt(distance(p, q));
     }
 
-    public class PolarOrder implements Comparator<Point2f> {
+    public class ComparePolarAngle implements Comparator<Point2f> {
         @Override
         public int compare(Point2f pa, Point2f pb) {
             double dy1 = pa.diffY(Point2f.this);
-            double dy2 = pb.diffX(Point2f.this);
-            // Pontos pc pa e pb estao estao na mesma altura em Y
-            if(dy1 == 0 && dy2 == 0) { }
+            double dy2 = pb.diffY(Point2f.this);
+            double dx1 = pa.diffX(Point2f.this);
+            double dx2 = pb.diffX(Point2f.this);
+            // Pontos pc pa e pb estao estao na mesma altura em Y,
+            if(dy1 == 0 && dy2 == 0) {
+                if(dx1 >= 0 && dx2 < 0)
+                    return -1;
+                else if(dx2 >= 0 && dx1 < 0)
+                    return 1;
+                return 0;
+            }
             // Ponto pa esta acima de pc em Y e pc esta acima de pb em Y
             else if(dy1 >= 0 && dy2 < 0)
                 return -1;
@@ -66,6 +73,16 @@ public class Point2f {
             else if(dy2 >= 0 && dy1 < 0)
                 return 1;
             return -ccw(Point2f.this, pa, pb);
+        }
+    }
+
+    public class OrderByDistanceAsc implements Comparator<Point2f> {
+        @Override
+        public int compare(Point2f p, Point2f q) {
+            int o = ccw(Point2f.this, p, q);
+            if(o == 0)
+                return distance(Point2f.this, q) >= distance(Point2f.this, p) ? -1 : 1;
+            return o;
         }
     }
 
@@ -85,32 +102,8 @@ public class Point2f {
         }
     }
 
-    public class OrderByDistanceAsc implements Comparator<Point2f> {
-        @Override
-        public int compare(Point2f p, Point2f q) {
-            int o = ccw(Point2f.this, p, q);
-            if(o == 0)
-                return distance(Point2f.this, q) >= distance(Point2f.this, p) ? -1 : 1;
-            return o;
-        }
-    }
-
-    public class OrderByPolarAngleAsc implements Comparator<Impl1GrahanScan.Point2f> {
-        @Override
-        public int compare(Impl1GrahanScan.Point2f o1, Impl1GrahanScan.Point2f o2) {
-            return 0;
-        }
-    }
-
-    public class OrderByYAsc implements Comparator<Impl1GrahanScan.Point2f> {
-        @Override
-        public int compare(Impl1GrahanScan.Point2f o1, Impl1GrahanScan.Point2f o2) {
-            return 0;
-        }
-    }
-
-    public Comparator<Point2f> orderByPAAsc() {
-        return new PolarOrder();
+    public Comparator<Point2f> orderByPolarAngleAsc() {
+        return new ComparePolarAngle();
     }
 
     public Comparator<Point2f> orderByDistAsc() {

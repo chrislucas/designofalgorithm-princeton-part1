@@ -12,10 +12,10 @@ import java.util.Stack;
 
 public class Impl1GrahanScan {
     public static final double EPS = 1E-9;
-    public static class Point2f {
+    public static class Point2Df {
         private double x, y;
-        public Point2f() {}
-        public Point2f(double x, double y) {
+        public Point2Df() {}
+        public Point2Df(double x, double y) {
             this.x = x;
             this.y = y;
         }
@@ -35,7 +35,7 @@ public class Impl1GrahanScan {
          * em relacao ao ponto p0, usamos um truque baseado na orientacao
          * formada por 3 pontos
          * */
-        public static int orientation(Point2f a, Point2f b, Point2f c) {
+        public static int orientation(Point2Df a, Point2Df b, Point2Df c) {
             double mArea = (b.x - a.x) * (c.y - a.y) - (b.y - a.y) * (c.x - a.x);
             if(mArea < 0)
                 return -1;  // sentido horario;
@@ -44,27 +44,26 @@ public class Impl1GrahanScan {
             return 0;       // colinear
         }
 
-        public static double distance(Point2f p, Point2f q) {
+        public static double distance(Point2Df p, Point2Df q) {
             double diffY = p.y - q.y;
             double diffX = p.x - q.x;
             return diffX*diffX+diffY*diffY;
         }
 
-        public static double distanceSquared(Point2f p, Point2f q) {
+        public static double distanceSquared(Point2Df p, Point2Df q) {
             return Math.sqrt(distance(p, q));
         }
 
-        public Comparator<Point2f> orderByDistAsc() {
+        public Comparator<Point2Df> orderByDistAsc() {
             return new OrderByDistanceAsc();
         }
 
-        public class OrderByDistanceAsc implements Comparator<Point2f> {
+        public class OrderByDistanceAsc implements Comparator<Point2Df> {
             @Override
-            public int compare(Point2f p, Point2f q) {
-                int o = orientation(Point2f.this, p, q);
+            public int compare(Point2Df p, Point2Df q) {
+                int o = orientation(Point2Df.this, p, q);
                 if(o == 0)
-                    return distance(Point2f.this, q)
-                            >= distance(Point2f.this, p) ? -1 : 1;
+                    return distance(Point2Df.this, p) <= distance(Point2Df.this, q) ? -1 : 1;
                 return o;
             }
         }
@@ -75,20 +74,20 @@ public class Impl1GrahanScan {
         }
     }
 
-    public static void swap(Point2f[] points, int i, int j) {
-        Point2f aux = points[i];
+    public static void swap(Point2Df[] points, int i, int j) {
+        Point2Df aux = points[i];
         points[i] = points[j];
         points[j] = aux;
     }
 
-    public static Point2f nextTop(Stack<Point2f> stack) {
-        Point2f top = stack.pop();
-        Point2f point2f =  stack.peek();        // nextTop
+    public static Point2Df nextTop(Stack<Point2Df> stack) {
+        Point2Df top = stack.pop();
+        Point2Df point2Df =  stack.peek();        // nextTop
         stack.push(top);
-        return point2f;
+        return point2Df;
     }
 
-    public static Stack<Point2f> scan(Point2f[] points) {
+    public static Stack<Point2Df> scan(Point2Df[] points) {
        int minIdx = 0;
        int n = points.length;
        // pegar o ponto com o menor Y, se tivermos mais de 1, pegamos o com o menor X
@@ -102,52 +101,50 @@ public class Impl1GrahanScan {
        if(minIdx != 0)
            swap(points, 0, minIdx);
         Arrays.sort(points, 1, n, points[0].orderByDistAsc());
-        int limit = points.length;
-
-        Stack<Point2f> stack = new Stack<>();
+        Stack<Point2Df> stack = new Stack<>();
         stack.push(points[0]);
         stack.push(points[1]);
         /**
          *
          * */
         int sizeNewArray = 1;
-        for(int i=1; i<limit; i++) {
+        for(int i=1; i<n; i++) {
             /**
              * Se os pontos i e i+1 forem colineares em relacao ao ponto p0
              * removemos o ponto i+1. Mas manteremos o ultimo ponto do array (o mais longe de p0)
              * */
-            while(i < limit-1 && Point2f.orientation(points[0]
-                    , points[i], points[i+1]) == 0) {
+            while(i<n-1 && Point2Df.orientation(points[0],  points[i],  points[i+1]) == 0)
                 i++;
-            }
             points[sizeNewArray++] = points[i];
         }
         if(sizeNewArray < 3)
             return stack;
         stack.push(points[2]);
         for (int i=3; i<sizeNewArray; i++) {
-            Point2f top = stack.peek();
-            Point2f nextTop = nextTop(stack);
-            Point2f current = points[i];
-            while (Point2f.orientation(top, nextTop, current) < 1)
-                stack.pop();
+            Point2Df current = points[i];
+            Point2Df next = nextTop(stack);
+            Point2Df top = stack.peek();
+            while (Point2Df.orientation(top, next, current) < 1 && ! stack.empty()) {
+                top =  stack.pop();// stack.peek();
+                next = nextTop(stack);
+            }
             stack.push(current);
         }
         return stack;
     }
 
     public static void test() {
-        Point2f [] point2fs = {
-             new Point2f(0,3)
-            ,new Point2f(1,1)
-            ,new Point2f(2,2)
-            ,new Point2f(4,4)
-            ,new Point2f(0,0)
-            ,new Point2f(1,2)
-            ,new Point2f(3,1)
-            ,new Point2f(3,3)
+        Point2Df[] point2Dfs = {
+             new Point2Df(0,3)
+            ,new Point2Df(1,1)
+            ,new Point2Df(2,2)
+            ,new Point2Df(4,4)
+            ,new Point2Df(0,0)
+            ,new Point2Df(1,2)
+            ,new Point2Df(3,1)
+            ,new Point2Df(3,3)
         };
-        Stack<Point2f> hull = scan(point2fs);
+        Stack<Point2Df> hull = scan(point2Dfs);
         while (!hull.empty()) {
             System.out.println(hull.pop());
         }
