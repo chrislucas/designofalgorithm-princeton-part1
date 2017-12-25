@@ -50,7 +50,7 @@ public class Merge {
                 /**
                  *
                  * */
-                counter+= (mid - i + 1);
+                counter+=(mid - i + 1);
             }
             /**
              * se  aux[j] > aux[i] entao so precisamos adicionar
