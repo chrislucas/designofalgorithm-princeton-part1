@@ -40,7 +40,7 @@ public class Impl2GrahanScan {
         stack.push(points[idx2-1]);
         for (int i = idx2; i<n ; i++) {
             Point2f top = stack.pop();
-            while (Point2f.ccw(stack.peek(), top, points[i]) <= 0)
+            while (Point2f.ccw(stack.peek(), top, points[i]) < 1)
                 top = stack.pop();
             stack.push(top);
             stack.push(points[i]);

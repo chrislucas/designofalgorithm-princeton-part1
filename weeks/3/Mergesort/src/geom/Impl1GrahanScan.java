@@ -34,14 +34,33 @@ public class Impl1GrahanScan {
          * de pontos pelo angulo polar que os pontos Pi (0 < i < N) formam
          * em relacao ao ponto p0, usamos um truque baseado na orientacao
          * formada por 3 pontos
+         *
+         * (ax - cx) * (by - cy) - (ay - cy) * (bx - cx)
+         *
+         *
+         * Queremos descobrir a orientação de 3 pontos num plano 2D, P, Q, S
+         *
+         * Temos 2 segmentos o PQ e o QS. Com o segmento PO podemos formar um triangulo
+         * retangulo, tal que PQ eh a hipotenusa e px - q.x e p.y - q.y formam
+         * os outros catetos. O mesmo vale para o segmento QS
+         *
+         * Podemos calcular o coeficiente angular do segmento PQ e QS
+         *
+         * mPQ = (q.y - p.y) / (q.x - p.x)
+         * mQS = (s.y - q.y) / (s.x - q.x)
+         *
+         * se mPQ < mQS a orientacao eh antihoraria
+         * se mPQ == mQS os pontos sao colineares uma ves q os segmentos tem a mesma inclinacao
+         * se mPQ > mQS a orientacao e horaria
+         *
          * */
         public static int orientation(Point2Df a, Point2Df b, Point2Df c) {
-            double mArea = (b.x - a.x) * (c.y - a.y) - (b.y - a.y) * (c.x - a.x);
+            double mArea = (b.y - a.y)*(c.x - b.x)-(b.x - a.x)*(c.y - b.y);
             if(mArea < 0)
-                return -1;  // sentido horario;
+                return 1;        // anti-horario;
             else if(mArea > 0)
-                return 1;   // anti horario
-            return 0;       // colinear
+                return -1;       // horario
+            return 0;            // colinear
         }
 
         public static double distance(Point2Df p, Point2Df q) {
@@ -64,7 +83,7 @@ public class Impl1GrahanScan {
                 int o = orientation(Point2Df.this, p, q);
                 if(o == 0)
                     return distance(Point2Df.this, p) <= distance(Point2Df.this, q) ? -1 : 1;
-                return o;
+                return o == 1 ? -1 : 1; // {1, -1} antihorario, horario
             }
         }
 
@@ -82,7 +101,7 @@ public class Impl1GrahanScan {
 
     public static Point2Df nextTop(Stack<Point2Df> stack) {
         Point2Df top = stack.pop();
-        Point2Df point2Df =  stack.peek();        // nextTop
+        Point2Df point2Df = stack.peek();        // nextTop
         stack.push(top);
         return point2Df;
     }
@@ -100,10 +119,8 @@ public class Impl1GrahanScan {
        }
        if(minIdx != 0)
            swap(points, 0, minIdx);
-        Arrays.sort(points, 1, n, points[0].orderByDistAsc());
+        Arrays.sort(points, 1, n-1, points[0].orderByDistAsc());
         Stack<Point2Df> stack = new Stack<>();
-        stack.push(points[0]);
-        stack.push(points[1]);
         /**
          *
          * */
@@ -119,16 +136,14 @@ public class Impl1GrahanScan {
         }
         if(sizeNewArray < 3)
             return stack;
+        stack.push(points[0]);
+        stack.push(points[1]);
         stack.push(points[2]);
         for (int i=3; i<sizeNewArray; i++) {
-            Point2Df current = points[i];
-            Point2Df next = nextTop(stack);
-            Point2Df top = stack.peek();
-            while (Point2Df.orientation(top, next, current) < 1 && ! stack.empty()) {
-                top =  stack.pop();// stack.peek();
-                next = nextTop(stack);
+            while (stack.size() > 1 && Point2Df.orientation(nextTop(stack), stack.peek(), points[i]) < 1) {
+                stack.pop();
             }
-            stack.push(current);
+            stack.push(points[i]);
         }
         return stack;
     }

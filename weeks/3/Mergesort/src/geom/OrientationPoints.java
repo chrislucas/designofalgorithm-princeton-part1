@@ -35,8 +35,9 @@ public class OrientationPoints {
             ,{new Point2f(0,0), new Point2f(4,4), new Point2f(1, 1)}
             ,{new Point2f(0,0), new Point2f(4,4), new Point2f(0, 3)}
             ,{new Point2f(0,0), new Point2f(4,4), new Point2f(5, 3)}
+            ,{new Point2f(0,3), new Point2f(1,2), new Point2f(4, 4)}
         };
-        int idx = 3;
+        int idx = 4;
         int o = orientation(points[idx][0], points[idx][1], points[idx][2]);
         if(o == 0)
             System.out.println("Colinear");
