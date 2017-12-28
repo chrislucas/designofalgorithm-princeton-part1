@@ -17,7 +17,10 @@ public class Main {
     private static final String [] paths = {
          "C:\\Users\\r028367\\Downloads\\collinear-testing\\collinear"
         ,"C:\\Users\\r028367\\Downloads\\collinear-testing\\collinear\\special"
+        ,"C:\\Users\\r028367\\Downloads\\collinear-testing\\collinear\\special2"
     };
+
+    public static final int INDEX_PATH = 0;
 
     private static void drawing(Solver solver, Point [] points) {
         StdDraw.enableDoubleBuffering();
@@ -34,10 +37,29 @@ public class Main {
         StdDraw.show();
     }
 
+    public static Point[] getPoints(String absolutePath) throws IOException {
+        BufferedReader reader = new BufferedReader(new FileReader(absolutePath));
+        int cases = Integer.parseInt(reader.readLine().trim());
+        System.out.printf("%d pontos\n", cases);
+        Point [] points = new Point[cases];
+        int m = 0;
+        String in = "";
+        while ((in = reader.readLine()) != null) {
+            // verifiquei um arquivo com linhas em branco
+            if(in.equals(""))
+                continue;
+            StringTokenizer tk = new StringTokenizer(in.trim(), " ");
+            int x = Integer.parseInt(tk.nextToken());
+            int y = Integer.parseInt(tk.nextToken());
+            points[m++] = new Point(x, y);
+        }
+        return points;
+    }
+
     public static List<Point[]> readFiles() {
         List<Point[]> listOfPoints = new ArrayList<>();
         try {
-            File dir = new File(paths[1]);
+            File dir = new File(paths[INDEX_PATH]);
             File [] fs = dir.listFiles();
             if(fs != null) {
                 for(File file : fs) {
@@ -46,28 +68,13 @@ public class Main {
                         if( name.matches("^.*\\.txt") ) {
                             String absolutePath = file.getAbsolutePath();
                             System.out.printf("Arquivo %s\n", absolutePath);
-                            BufferedReader reader = new BufferedReader(new FileReader(absolutePath));
                             /**
                              * Aparentemente todos os arquivos de teste desse problema estao com
                              * um formato parecido com de competicao de programacao. Comeca com um
                              * inteiro N na primeira linha e depois segue N linhas com pares de inteiros
                              * representando pontos num plano cartesiano
                              * */
-                            int cases = Integer.parseInt(reader.readLine().trim());
-                            System.out.printf("%d pontos\n", cases);
-                            Point [] points = new Point[cases];
-                            int m = 0;
-                            String in = "";
-                            while ((in = reader.readLine()) != null) {
-                                // verifiquei um arquivo com linhas em branco
-                                if(in.equals(""))
-                                    continue;
-                                StringTokenizer tk = new StringTokenizer(in.trim(), " ");
-                                int x = Integer.parseInt(tk.nextToken());
-                                int y = Integer.parseInt(tk.nextToken());
-                                points[m++] = new Point(x, y);
-                            }
-                            listOfPoints.add(points);
+                            listOfPoints.add(getPoints(absolutePath));
                         }
                     }
                 }
@@ -91,8 +98,25 @@ public class Main {
         drawing(fastCollinearPoints, points);
     }
 
-    public static void main(String[] args) {
+    public static void readAllFiles() {
         List<Point[]> listOfPoints = readFiles();
-        bruteCollinearPointsTest(listOfPoints.get(0));
+        for(Point[] points : listOfPoints)
+            fastCollinearPointsTest(points);
+        for(Point[] points : listOfPoints)
+            bruteCollinearPointsTest(points);
+    }
+
+    public static void readSpecificFile() {
+        try {
+            Point [] points =  getPoints("C:\\Users\\r028367\\Downloads\\collinear-testing\\collinear\\input20.txt");
+            fastCollinearPointsTest(points);
+            bruteCollinearPointsTest(points);
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    public static void main(String[] args) {
+        readSpecificFile();
     }
 }
