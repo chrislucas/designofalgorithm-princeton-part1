@@ -62,21 +62,6 @@ public class BruteCollinearPoints implements Solver {
                         double slopeToPR = p.slopeTo(r);
                         double slopeToPS = p.slopeTo(s);
                         if(slopeToPQ == slopeToPR && slopeToPQ == slopeToPS) {
-                            boolean exists = false;
-                            /*
-                            if(resizingArrayPoints.size() > 0) {
-                                Iterator<Point> it = resizingArrayPoints.iterator();
-                                while (it.hasNext()) {
-                                    Point pointAdded = it.next();
-                                    if(pointAdded.compareTo(p) == 0 || pointAdded.compareTo(s) == 0) {
-                                        exists = true;
-                                    }
-                                }
-                            }
-                            if(!exists) {
-                                resizingArrayPoints.add(p);
-                            }
-                               */
                             resizingArrayBag.add(new LineSegment(p, s));
                         }
                     }
