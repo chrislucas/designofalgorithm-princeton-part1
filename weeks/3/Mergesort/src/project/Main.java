@@ -108,8 +108,8 @@ public class Main {
 
     public static void readSpecificFile() {
         try {
-            Point [] points =  getPoints("C:\\Users\\r028367\\Downloads\\collinear-testing\\collinear\\input20.txt");
-            fastCollinearPointsTest(points);
+            Point [] points =  getPoints("C:\\Users\\r028367\\Downloads\\collinear-testing\\collinear\\inarow.txt");
+            //fastCollinearPointsTest(points);
             bruteCollinearPointsTest(points);
         } catch (IOException e) {
             System.out.println(e.getMessage());

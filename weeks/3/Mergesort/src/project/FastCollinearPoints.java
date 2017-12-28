@@ -1,5 +1,6 @@
 package project;
 
+import edu.princeton.cs.algs4.LinearProbingHashST;
 import edu.princeton.cs.algs4.ResizingArrayBag;
 
 import javax.sound.sampled.Line;
@@ -8,11 +9,13 @@ import java.util.Iterator;
 
 public class FastCollinearPoints implements Solver {
     private Point[] points;
+    private LinearProbingHashST<LineSegment, ResizingArrayBag<LineSegment>> hashST;
 
     public FastCollinearPoints(Point[] points) {
         this.points = points;
         if(!verify(points))
             throw new IllegalArgumentException();
+        hashST = new LinearProbingHashST<>();
     }
 
     private boolean verify(Point [] points) {
