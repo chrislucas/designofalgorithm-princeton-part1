@@ -31,15 +31,8 @@ public class BruteCollinearPoints implements Solver {
     }
 
     public int numberOfSegments() {
-        LineSegment [] segments = segments();
-        int acc = 0;
-        for(int i=0; i<segments.length; i++) {
-            if(segments[i] != null)
-                acc++;
-            else
-                break;
-        }
-        return acc;
+        LineSegment [] s = segments();
+        return s.length;
     }
 
 

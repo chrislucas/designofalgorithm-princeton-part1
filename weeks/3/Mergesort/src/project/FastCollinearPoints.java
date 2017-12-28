@@ -29,12 +29,8 @@ public class FastCollinearPoints implements Solver {
     }
 
     public int numberOfSegments() {
-        int acc = 0;
-        for(LineSegment segment : segments()) {
-            if(segment != null)
-                acc++;
-        }
-        return acc;
+        LineSegment [] s = segments();
+        return s.length;
     }
 
     @Override
