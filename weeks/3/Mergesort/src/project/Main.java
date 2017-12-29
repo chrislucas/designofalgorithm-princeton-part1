@@ -35,6 +35,7 @@ public class Main {
             lineSegment.draw();
         }
         StdDraw.show();
+        System.out.println("Fim");
     }
 
     public static Point[] getPoints(String absolutePath) throws IOException {
@@ -106,17 +107,28 @@ public class Main {
             bruteCollinearPointsTest(points);
     }
 
-    public static void readSpecificFile() {
+    public static void readSpecificFile(String absolutePath) {
         try {
-            Point [] points =  getPoints("C:\\Users\\r028367\\Downloads\\collinear-testing\\collinear\\inarow.txt");
-            //fastCollinearPointsTest(points);
-            bruteCollinearPointsTest(points);
+            Point [] points =  getPoints(absolutePath);
+            fastCollinearPointsTest(points);
+            //bruteCollinearPointsTest(points);
         } catch (IOException e) {
             System.out.println(e.getMessage());
         }
     }
 
     public static void main(String[] args) {
-        readSpecificFile();
+        String absolutePaths [] = {
+             "C:\\Users\\r028367\\Downloads\\collinear-testing\\collinear\\vertical100.txt"
+            ,"C:\\Users\\r028367\\Downloads\\collinear-testing\\collinear\\vertical75.txt"
+            ,"C:\\Users\\r028367\\Downloads\\collinear-testing\\collinear\\inarow.txt"
+            ,"C:\\Users\\r028367\\Downloads\\collinear-testing\\collinear\\random152.txt"
+            ,"C:\\Users\\r028367\\Downloads\\collinear-testing\\collinear\\random91.txt"
+            ,"C:\\Users\\r028367\\Downloads\\collinear-testing\\collinear\\input10000.txt"
+            ,"C:\\Users\\r028367\\Downloads\\collinear-testing\\collinear\\input6000.txt"
+            ,"C:\\Users\\r028367\\Downloads\\collinear-testing\\collinear\\input400.txt"
+            ,"C:\\Users\\r028367\\Downloads\\collinear-testing\\collinear\\equidistant.txt"
+        };
+        readSpecificFile(absolutePaths[8]);
     }
 }
