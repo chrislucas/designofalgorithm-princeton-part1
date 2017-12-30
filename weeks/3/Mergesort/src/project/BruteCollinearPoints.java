@@ -1,17 +1,17 @@
 package project;
 
-import com.sun.org.apache.regexp.internal.RE;
 import edu.princeton.cs.algs4.ResizingArrayBag;
-
 import java.util.Arrays;
 import java.util.Iterator;
 
 public class BruteCollinearPoints implements Solver {
-    private Point [] points;
+    final private Point [] points;
+    final private LineSegment [] lineSegments;
     public BruteCollinearPoints(Point[] points) {
-        if( ! verify(points) )
+        if(!verify(points) )
             throw new IllegalArgumentException();
         this.points = points;
+        this.lineSegments = run();
     }
 
     private boolean verify(Point [] points) {
@@ -31,15 +31,11 @@ public class BruteCollinearPoints implements Solver {
     }
 
     public int numberOfSegments() {
-        LineSegment [] s = segments();
-        return s.length;
+        return lineSegments.length;
     }
 
-
-    @Override
-    public LineSegment [] segments() {
+    public LineSegment [] run() {
         ResizingArrayBag<LineSegment> resizingArrayBag = new ResizingArrayBag<>();
-        ResizingArrayBag<Point> resizingArrayPoints = new ResizingArrayBag<>();
         int m = 0;
         Arrays.sort(points);
         int limit = points.length;
@@ -66,5 +62,11 @@ public class BruteCollinearPoints implements Solver {
         while (it.hasNext())
             segs[m++] = it.next();
         return segs;
+    }
+
+
+    @Override
+    public LineSegment [] segments() {
+        return lineSegments;
     }
 }

@@ -14,10 +14,12 @@ import java.util.StringTokenizer;
 
 public class Main {
 
+
+
     private static final String [] paths = {
-         "C:\\Users\\r028367\\Downloads\\collinear-testing\\collinear"
-        ,"C:\\Users\\r028367\\Downloads\\collinear-testing\\collinear\\special"
-        ,"C:\\Users\\r028367\\Downloads\\collinear-testing\\collinear\\special2"
+         "C:\\tests\\collinear-testing\\collinear"
+        ,"C:\\tests\\collinear-testing\\collinear\\special"
+        ,"C:\\tests\\collinear-testing\\collinear\\special2"
     };
 
     public static final int INDEX_PATH = 0;
@@ -32,15 +34,16 @@ public class Main {
         // print and draw the line segments
         for (LineSegment lineSegment : solver.segments()) {
             StdOut.println(lineSegment);
-            lineSegment.draw();
+            //lineSegment.draw();
         }
         StdDraw.show();
+        System.out.println("Fim\n");
     }
 
     public static Point[] getPoints(String absolutePath) throws IOException {
         BufferedReader reader = new BufferedReader(new FileReader(absolutePath));
         int cases = Integer.parseInt(reader.readLine().trim());
-        System.out.printf("%d pontos\n", cases);
+        System.out.printf("%d pontos\n\n", cases);
         Point [] points = new Point[cases];
         int m = 0;
         String in = "";
@@ -106,17 +109,28 @@ public class Main {
             bruteCollinearPointsTest(points);
     }
 
-    public static void readSpecificFile() {
+    public static void readSpecificFile(String absolutePath) {
         try {
-            Point [] points =  getPoints("C:\\Users\\r028367\\Downloads\\collinear-testing\\collinear\\inarow.txt");
-            //fastCollinearPointsTest(points);
-            bruteCollinearPointsTest(points);
+            Point [] points =  getPoints(absolutePath);
+            fastCollinearPointsTest(points);
+            //bruteCollinearPointsTest(points);
         } catch (IOException e) {
             System.out.println(e.getMessage());
         }
     }
 
     public static void main(String[] args) {
-        readSpecificFile();
+        String absolutePaths [] = {
+             "C:\\tests\\collinear-testing\\collinear\\vertical100.txt"
+            ,"C:\\tests\\collinear-testing\\collinear\\vertical75.txt"
+            ,"C:\\tests\\collinear-testing\\collinear\\inarow.txt"
+            ,"C:\\tests\\collinear-testing\\collinear\\random152.txt"
+            ,"C:\\tests\\collinear-testing\\collinear\\random91.txt"
+            ,"C:\\tests\\collinear-testing\\collinear\\input10000.txt"
+            ,"C:\\tests\\collinear-testing\\collinear\\input6000.txt"
+            ,"C:\\tests\\collinear-testing\\collinear\\input400.txt"
+            ,"C:\\tests\\collinear-testing\\collinear\\equidistant.txt"
+        };
+        readSpecificFile(absolutePaths[2]);
     }
 }

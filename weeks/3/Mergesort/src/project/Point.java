@@ -125,7 +125,7 @@ public class Point implements Comparable<Point> {
      */
     public String toString() {
         /* DO NOT MODIFY */
-        return String.format("Point(%d, %d)", x, y);
+        return String.format("Point(%d, %d)", x, y); // "(" + x + ", " + y + ")" // toString original
     }
 
     /**
