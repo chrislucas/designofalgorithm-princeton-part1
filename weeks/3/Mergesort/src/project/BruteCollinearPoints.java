@@ -5,9 +5,9 @@ import java.util.Arrays;
 import java.util.Iterator;
 
 public class BruteCollinearPoints implements Solver {
-    final private Point [] arrayOfPoints;
-    final private LineSegment [] lineSegments;
-    public BruteCollinearPoints(Point[] points) {
+    private final Point [] arrayOfPoints;
+    private final LineSegment [] lineSegments;
+    public BruteCollinearPoints(final Point[] points) {
         if (!verify(points))
             throw new IllegalArgumentException();
         this.arrayOfPoints = points;

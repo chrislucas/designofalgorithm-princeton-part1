@@ -5,9 +5,9 @@ import java.util.Arrays;
 import java.util.Iterator;
 
 public class FastCollinearPoints implements Solver {
-    final private Point[] arraysOfpoints;
-    final private LineSegment lineSegments [];;
-    public FastCollinearPoints(Point[] points) {
+    private final Point[] arraysOfpoints;
+    private final LineSegment lineSegments [];;
+    public FastCollinearPoints(final Point[] points) {
         this.arraysOfpoints = points;
         if (!verify(points))
             throw new IllegalArgumentException();
@@ -84,7 +84,7 @@ public class FastCollinearPoints implements Solver {
                         }
                     }
                     if (!exists) {
-                        bagOfLineSegment.add(new Point[]{origin, p});
+                        bagOfLineSegment.add(new Point[]{origin.compareTo(r) < 0 ? origin : r, p});
                     }
                 }
             }

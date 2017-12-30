@@ -15,8 +15,6 @@ import java.util.StringTokenizer;
 
 public class Main {
 
-
-
     private static final String [] paths = {
          "C:\\tests\\collinear-testing\\collinear"
         ,"C:\\tests\\collinear-testing\\collinear\\special"
@@ -26,19 +24,18 @@ public class Main {
     public static final int INDEX_PATH = 0;
 
     private static void drawing(Solver solver, Point [] points) {
-        Arrays.sort(points);
         StdDraw.enableDoubleBuffering();
         StdDraw.setXscale(0, 32768);
         StdDraw.setYscale(0, 32768);
         for (Point p : points)
             p.draw();
-        StdDraw.show();
+        //StdDraw.show();
         // print and draw the line segments
         for (LineSegment lineSegment : solver.segments()) {
             StdOut.println(lineSegment);
-            lineSegment.draw();
+            //lineSegment.draw();
         }
-        StdDraw.show();
+        //StdDraw.show();
         System.out.println("Fim\n");
     }
 
@@ -138,6 +135,6 @@ public class Main {
             ,"C:\\tests\\collinear-testing\\collinear\\equidistant.txt"
             ,"C:\\tests\\collinear-testing\\collinear\\input8.txt"
         };
-        readSpecificFile(absolutePaths[2]);
+        readSpecificFile(absolutePaths[12]);
     }
 }
