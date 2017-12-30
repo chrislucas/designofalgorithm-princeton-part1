@@ -5,6 +5,7 @@ import edu.princeton.cs.algs4.StdOut;
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.StringTokenizer;
 
@@ -25,6 +26,7 @@ public class Main {
     public static final int INDEX_PATH = 0;
 
     private static void drawing(Solver solver, Point [] points) {
+        Arrays.sort(points);
         StdDraw.enableDoubleBuffering();
         StdDraw.setXscale(0, 32768);
         StdDraw.setYscale(0, 32768);
@@ -34,7 +36,7 @@ public class Main {
         // print and draw the line segments
         for (LineSegment lineSegment : solver.segments()) {
             StdOut.println(lineSegment);
-            //lineSegment.draw();
+            lineSegment.draw();
         }
         StdDraw.show();
         System.out.println("Fim\n");
@@ -82,10 +84,10 @@ public class Main {
                     }
                 }
             }
-        } catch (IOException e) {
+        }
+        catch (IOException e) {
             System.out.println(e.getMessage());
         }
-
         return listOfPoints;
     }
 
@@ -113,7 +115,7 @@ public class Main {
         try {
             Point [] points =  getPoints(absolutePath);
             fastCollinearPointsTest(points);
-            //bruteCollinearPointsTest(points);
+            bruteCollinearPointsTest(points);
         } catch (IOException e) {
             System.out.println(e.getMessage());
         }
@@ -121,8 +123,12 @@ public class Main {
 
     public static void main(String[] args) {
         String absolutePaths [] = {
-             "C:\\tests\\collinear-testing\\collinear\\vertical100.txt"
+             "C:\\tests\\collinear-testing\\collinear\\horizontal100.txt"
+            ,"C:\\tests\\collinear-testing\\collinear\\horizontal75.txt"
+            ,"C:\\tests\\collinear-testing\\collinear\\vertical25.txt"
+            ,"C:\\tests\\collinear-testing\\collinear\\vertical100.txt"
             ,"C:\\tests\\collinear-testing\\collinear\\vertical75.txt"
+            ,"C:\\tests\\collinear-testing\\collinear\\vertical50.txt"
             ,"C:\\tests\\collinear-testing\\collinear\\inarow.txt"
             ,"C:\\tests\\collinear-testing\\collinear\\random152.txt"
             ,"C:\\tests\\collinear-testing\\collinear\\random91.txt"
@@ -130,6 +136,7 @@ public class Main {
             ,"C:\\tests\\collinear-testing\\collinear\\input6000.txt"
             ,"C:\\tests\\collinear-testing\\collinear\\input400.txt"
             ,"C:\\tests\\collinear-testing\\collinear\\equidistant.txt"
+            ,"C:\\tests\\collinear-testing\\collinear\\input8.txt"
         };
         readSpecificFile(absolutePaths[2]);
     }

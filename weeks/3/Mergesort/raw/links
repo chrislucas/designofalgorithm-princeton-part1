@@ -3,9 +3,9 @@ https://algs4.cs.princeton.edu/22mergesort/
 https://algs4.cs.princeton.edu/22mergesort/Merge.java.html
 
 Orientation of 3 ponts 2D plane
- * http://www.geeksforgeeks.org/orientation-3-ordered-points/
- * https://preparingforcodinginterview.wordpress.com/2016/08/30/orientation-of-3-ordered-points/
- * https://reformatcode.com/code/c/the-classic-algorithm-to-find-orientation-of-three-points-is-wrong
+ * http://www.geeksforgeeks.org/orientation-3-ordered-arrayOfPoints/
+ * https://preparingforcodinginterview.wordpress.com/2016/08/30/orientation-of-3-ordered-arrayOfPoints/
+ * https://reformatcode.com/code/c/the-classic-algorithm-to-find-orientation-of-three-arrayOfPoints-is-wrong
 
 
  Slope line

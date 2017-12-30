@@ -1,26 +1,26 @@
 FastCollinearPoints
     public LineSegment [] segments() {
-        int qPoints = points.length;
+        int qPoints = arrayOfPoints.length;
         ResizingArrayBag<LineSegment> bagOfLineSegment = new ResizingArrayBag<>();
         /*
         int minIdx = 0;
         for(int i=1; i<qPoints; i++) {
-            if(points[i].compareTo(points[minIdx]) < 0) {
+            if(arrayOfPoints[i].compareTo(arrayOfPoints[minIdx]) < 0) {
                 minIdx = i;
             }
         }
         // swap, menor elemento ve para frente do vetor
         if(minIdx != 0) {
-            Point p = points[minIdx];
-            points[minIdx] = points[0];
-            points[0] = p;
+            Point p = arrayOfPoints[minIdx];
+            arrayOfPoints[minIdx] = arrayOfPoints[0];
+            arrayOfPoints[0] = p;
         }
         // ordena o resto do vetor usando o coeficiente angular que os n-1 pontos formam com p0
-        Arrays.sort(points, 1, qPoints, points[0].slopeOrder());
+        Arrays.sort(arrayOfPoints, 1, qPoints, arrayOfPoints[0].slopeOrder());
         */
-        Arrays.sort(points);
+        Arrays.sort(arrayOfPoints);
         Point [] copyArrayPoints = new Point[qPoints];
-        System.arraycopy(points, 0, copyArrayPoints, 0, qPoints);
+        System.arraycopy(arrayOfPoints, 0, copyArrayPoints, 0, qPoints);
         for(int i=0; i<qPoints; i++) {
             Point origin = copyArrayPoints[i];
             Arrays.sort(copyArrayPoints, origin.slopeOrder());
@@ -58,11 +58,11 @@ FastCollinearPoints
 /*
         for (int i=1; i<qPoints-2; i++) {
             for(int j=i+1; j<qPoints-1; j++) {
-                double slopePointPAndQ1 = points[0].slopeTo(points[i]);
-                double slopePointPAndQ2 = points[0].slopeTo(points[j]);
-                double slopePointPAndQ3 = points[0].slopeTo(points[j+1]);
+                double slopePointPAndQ1 = arrayOfPoints[0].slopeTo(arrayOfPoints[i]);
+                double slopePointPAndQ2 = arrayOfPoints[0].slopeTo(arrayOfPoints[j]);
+                double slopePointPAndQ3 = arrayOfPoints[0].slopeTo(arrayOfPoints[j+1]);
                 if(slopePointPAndQ1 == slopePointPAndQ2 && slopePointPAndQ1 == slopePointPAndQ3) {
-                    bagOfLineSegment.add(new LineSegment(points[0], points[j+1]));
+                    bagOfLineSegment.add(new LineSegment(arrayOfPoints[0], arrayOfPoints[j+1]));
                 }
             }
         }
@@ -83,4 +83,23 @@ FastCollinearPoints
         return segs1;
     }
 
+                            //if(pair[1].compareTo(copyArrayPoints[j+2]) == 0) { }
 
+                /*
+                if(acc < 2) {
+                    if(slopes[j] == slopes[j+1] && slopes[j] == slopes[j+2]) {
+                        acc = 3;
+                    }
+                    else {
+                        acc = 0;
+                    }
+                }
+                else {
+                    if(slopes[j] == slopes[j+1] && slopes[j] == slopes[j+2]) {
+                        acc++;
+                    }
+                    else {
+                        acc = 0;
+                    }
+                }
+                */
