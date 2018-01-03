@@ -134,7 +134,8 @@ public class Main {
             ,"C:\\tests\\collinear-testing\\collinear\\input400.txt"
             ,"C:\\tests\\collinear-testing\\collinear\\equidistant.txt"
             ,"C:\\tests\\collinear-testing\\collinear\\input8.txt"
+            ,"C:\\tests\\collinear-testing\\collinear\\input40.txt"
         };
-        readSpecificFile(absolutePaths[12]);
+        readSpecificFile(absolutePaths[13]);
     }
 }

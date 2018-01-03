@@ -78,7 +78,7 @@ public class FastCollinearPoints implements Solver {
                     int c = 0;
                     for(Point[]  pair : bagOfLineSegment) {
                         c++;    // so por curiosidade
-                        if (pair[0].compareTo(origin) == 0 && pair[1].compareTo(p)==0) {
+                        if (pair[0].compareTo(origin) == 0 && pair[1].compareTo(p) == 0) {
                             exists = true;
                             break;
                         }
