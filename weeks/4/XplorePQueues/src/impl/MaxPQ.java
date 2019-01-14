@@ -4,21 +4,38 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Comparator;
 import java.util.Iterator;
+import java.util.NoSuchElementException;
+
 
 public class MaxPQ<Key extends Comparable<Key>> implements Iterable<Key> {
 
     private class HeapIterator implements Iterator<Key> {
 
-        private MaxPQ<Key> maxPQ;
+        private MaxPQ<Key> copy;
+
+        public HeapIterator() {
+            if (comparator == null) {
+                copy = new MaxPQ<>(size());
+            }
+            else {
+                copy = new MaxPQ<>(size(), comparator);
+            }
+
+            for (int i = 1; i <= controlSize; i++) {
+                copy.insert(keys[i]);
+            }
+        }
 
         @Override
         public boolean hasNext() {
-            return false;
+            return ! copy.isEmpty();
         }
 
         @Override
         public Key next() {
-            return null;
+            if (!hasNext())
+                throw new NoSuchElementException();
+            return copy.delMax();
         }
 
         @Override
@@ -34,45 +51,65 @@ public class MaxPQ<Key extends Comparable<Key>> implements Iterable<Key> {
         this(1);
     }
 
-    public MaxPQ(int capacity) {
-        this.keys = (Key[]) new Comparable[capacity];
+    private MaxPQ(int capacity) {
+        this.keys = (Key[]) new Comparable[capacity + 1];
     }
 
     public MaxPQ(int capacity, Comparator<Key> comparator) {
-        this.keys = (Key[]) new Comparable[capacity];
+        this(capacity);
         this.comparator = comparator;
     }
 
     public MaxPQ(Key [] keys, Comparator<Key> comparator) {
-        this.keys = keys;
-        this.controlSize = keys.length;
+        this(keys);
         this.comparator = comparator;
-        for (int i = 0; i < controlSize ; i++)
-            this.keys[i] = keys[i];
-
-        for (int i = controlSize/2; i >= 1 ; i--)
-            heapify(i);
     }
 
-    public MaxPQ(Key [] keys) {
-        this.keys = keys;
+    MaxPQ(Key[] keys) {
         this.controlSize = keys.length;
-        System.arraycopy(keys, 0, this.keys, 0, controlSize);
+        this.keys = (Key []) new Object[keys.length + 1];
+        System.arraycopy(keys, 1, this.keys, 0, controlSize);
         for (int i = controlSize/2; i >= 1 ; i--)
-            heapify(i);
+            bottomUpHeapify(i);
     }
 
-    public void insert(Key key) { }
+    private void insert(Key key) {
+        if (controlSize == keys.length - 1)
+            resize(keys.length * 2);
+        keys[++controlSize] = key;
+        bottomUpHeapify(controlSize);
+    }
 
-    public Key delMax() { return null; }
+    private Key delMax() {
+        if (isEmpty())
+            throw new NoSuchElementException("PQ vazia");
+        Key max = keys[1];
+        swap(1, controlSize--);
+        topDownHeapify(1);
+        keys[controlSize+1] = null;
+        if (controlSize > 0 && (controlSize == (keys.length-1)/4))
+            resize(keys.length/2);
+        return max;
+    }
 
-    public boolean isEmpty() { return controlSize == 0; }
+    private void resize(int capacity) {
+        Key [] temp = (Key []) new Object[capacity];
+        System.arraycopy(keys, 1, temp, 1, controlSize);
+        keys = temp;
+    }
 
-    public Key max() { return null;}
 
-    public int size() { return  0;}
+    private boolean isEmpty() { return controlSize == 0; }
 
-    private void exch( int i, int j) {
+    public Key max() throws Exception {
+        if (isEmpty())
+            throw new Exception("PQ vazia");
+        return keys[0];
+    }
+
+    public int size() { return controlSize;}
+
+    private void swap(int i, int j) {
         Key aux = keys[i];
         keys[i] = keys[j];
         keys[j] = aux;
@@ -80,41 +117,41 @@ public class MaxPQ<Key extends Comparable<Key>> implements Iterable<Key> {
 
 
     public void heapify(int node) {
-        topDownheapify(node);
+        topDownHeapify(node);
     }
 
     /**
      * a partir de um no 'folha' corrigimos a estrutura heap
-     * subindo para o no 'raiz'
+     * subindo para o no 'raiz''- 'swim
      * */
-    private void bottomUpheapify(int node) {
+    private void bottomUpHeapify(int node) {
         // se no pai for menor que o no folha
         while (node > 1 && lessThan(node/2, node)) {
             // colocar o no folha como no pai
-            exch(node, node/2);
+            swap(node, node/2);
             node /= 2;
         }
     }
 
     /**
      * A partir de um no raiz corrigimos a estrutura heap
-     * descendo para os nós 'folhas'
+     * descendo para os nós 'folhas' - sink'
      * */
-    private void topDownheapify(int node) {
-        while (2*node <= controlSize) {
-            int leaf = 2*node; // no esquerdo
-            //Vamos comparar o maior valor (no esquerdo|direito) com o valor do no raiz
+    private void topDownHeapify(int parent) {
+        while (2*parent+1 < controlSize) {
+            int leaf = 2*parent; // no esquerdo
+            // Vamos comparar o maior valor (no esquerdo | direito) com o valor do no raiz
             // comparamos o no da esquerda com o da direita
             // se o no da esquerda for menor
             if (leaf < controlSize && lessThan(leaf, leaf+1))
-                // , vamos usar o no da para verificar a necessidade de consertar a estrutura heap
+                // , vamos usar o no da direita para verificar a necessidade de consertar a estrutura heap
                 leaf++;
-            // se o no filho folha for menor que o raiz, a estrutura esta correta
-            if(lessThan(leaf, node))
+            // se o no filho-folha for menor que o raiz, a estrutura esta correta
+            if(lessThan(leaf, parent))
                 break;
             // o maior valor torna-se o no pai
-            exch(leaf, node);
-            node = leaf;
+            swap(leaf, parent);
+            parent = leaf;
         }
     }
 
@@ -123,7 +160,7 @@ public class MaxPQ<Key extends Comparable<Key>> implements Iterable<Key> {
     }
 
     private boolean isMaxHeap() {
-        return isMaxHeap(0);
+        return isMaxHeap(1);
     }
 
     private boolean isMaxHeap(int k) {
@@ -131,7 +168,7 @@ public class MaxPQ<Key extends Comparable<Key>> implements Iterable<Key> {
             return true;
         int l = 2*k;
         int r = 2*k+1;
-        if( (l < controlSize && lessThan(k, l)) || (r < controlSize && lessThan(k, r)))
+        if( (l <= controlSize && lessThan(k, l)) || (r <= controlSize && lessThan(k, r)))
             return false;
         boolean p = isMaxHeap(l);
         boolean q = isMaxHeap(r);
@@ -141,42 +178,6 @@ public class MaxPQ<Key extends Comparable<Key>> implements Iterable<Key> {
     @NotNull
     @Override
     public Iterator<Key> iterator() {
-        return new Iterator<Key>() {
-
-            int idx = 0;
-
-            @Override
-            public boolean hasNext() {
-                return idx < controlSize;
-            }
-
-            @Override
-            public Key next() {
-                return keys[idx++];
-            }
-        };
-    }
-
-    private static void printIterator(Iterator iterator) {
-        while (iterator.hasNext()) {
-            System.out.println(iterator.next());
-        }
-    }
-
-    private static void testPQString() {
-        String [] data = {"P", "r", "i", "o", "r"
-                , "i", "t", "y", "Q", "u", "e", "u", "e"};
-        MaxPQ<String> maxPQ = new MaxPQ<>(data);
-        printIterator(maxPQ.iterator());
-    }
-
-    private static void testPQInteger() {
-        Integer [] data = {6, 4, 5, 3, 2, 0, 1};
-        MaxPQ<Integer> maxPQ = new MaxPQ<>(data);
-        printIterator(maxPQ.iterator());
-    }
-
-    public static void main(String[] args) {
-        testPQInteger();
+        return new HeapIterator();
     }
 }
