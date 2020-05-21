@@ -1,0 +1,55 @@
+https://kotlinlang.org/docs/tutorials/kotlin-for-py/generics.html
+
+Generics
+
+Segundo a documentacao, um resumo de como generics funciona em kotlin:
+
+Tenhamos como exemplo a classe: class TreeNode<T>(val T: node: TreeNode<T>)
+
+
+"Sempre que criamos de uma instacia de uma classe com parametrizacao generica devemos especificar
+o tipo do parametro (TreeNode<String>) ou podemos atraves do construir definir esse tipo fazendo com que
+o compilador infira qual o tipo parametrizado (TreeNode)"
+
+"Membros de classe como funcoes e propriedades podem utilizar os tipos genericos como tipos definidos (classes definidas pela linguagem
+ou pelo desenvolvedor) na maioria dos casos.
+
+Eh possivel criar funcoes genericas em classes que nao definam um tipo generico ou definir argumentos genericos para funcoes
+membro de classes que nao foram definidas pela classe
+
+class Clazz<Item> {
+
+    fun <T> doSomething(value: T) Clazz<T>
+
+}
+
+"
+
+Definicoes de "Top level functions" em Kotlin
+https://code.tutsplus.com/tutorials/kotlin-from-scratch-more-functions--cms-29479
+https://subscription.packtpub.com/book/application_development/9781787126367/4/ch04lvl1sec52/top-level-functions
+https://stackoverflow.com/questions/633617/whats-the-difference-between-low-level-functions-top-level-functions
+https://blog.jetbrains.com/kotlin/2015/06/improving-java-interop-top-level-functions-and-properties/
+
+https://kotlinlang.org/docs/tutorials/kotlin-for-py/generics.html#constraints
+Constraints em tipos genericos
+
+Podemos restringir quais tipos podem ser usados como parametrizacao do tipo generico. Podemos restrigin os tipos como
+instancia de uma classe 'X' ou subclasse de 'X', como por exemplo: Podemos definir que a classe so aceita parametrizacao
+caso a classe seja uma instancia de 'Comparable' ou subclasse da mesma, da seguinte forma
+
+class Clazz<T: Comparable<T>>
+
+Nao estamos restritos a adicionar uma unica restricao para parametrizacao. Para adicionar mais restricoes usamos a seguinte
+sintaxe
+
+class Clazz<T> where T : Clazz1, T: Clazz2, T: Clazz3 ... , T: ClazzN
+
+
+https://kotlinlang.org/docs/tutorials/kotlin-for-py/generics.html#declaration-site-covariance-and-contravariance
+Introducao A Variancia
+
+
+
+// https://docs.oracle.com/javase/tutorial/java/generics/inheritance.html
+Generics em Java
