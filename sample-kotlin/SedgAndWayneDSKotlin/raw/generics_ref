@@ -48,8 +48,39 @@ class Clazz<T> where T : Clazz1, T: Clazz2, T: Clazz3 ... , T: ClazzN
 
 https://kotlinlang.org/docs/tutorials/kotlin-for-py/generics.html#declaration-site-covariance-and-contravariance
 Introducao A Variancia
+ * vamos ao seguinte exemplo
+ *
+ * Temos abaixo uma classe que encapsula um Array Generico
+ *
+ * Seja C uma classe qualquer SubC uma sub classe de C
+ * Em kotlin Wrapper<SubC> nao eh uma subclasse de Wrapper<C>
+ *     Pois se fosse, alguns erros poderiam ser implementados como a seguir:
+ *
+ *     val wrapper = Wrapper<Point2dTruncate> { null }
+ *     //
+ *     fun addPoint2dToWrapper(wrapper: Wrapper<Point2d>, p: Point2d)  = wrapper.add(p)
+ *     // essa linha nao pode compilar pois o metodo espera um Wrapper de Point2D
+ *     // se compila-se
+ *     addPoint2dToWrapper(wrapper, Point2dTruncated(...))
+ *
+ *      // isso poderia seria ser implementado
+ *      val point2d: Point2D = wrapper[i]
+ *      // entrentando nos nao adicionamos uma instancia de Point2D
+
+
+
+
+
+Relacao entre Covariancia e Contravariancia e o Liskov Substitution Principle
+https://www.microsoftpressstore.com/articles/article.aspx?p=2255313&seqNum=3
+https://www.codejava.net/java-core/collections/generics-with-subtyping-and-the-substitution-principle
+https://dzone.com/articles/the-liskov-substitution-principle-with-examples
+https://www.i-programmer.info/programming/theory/1632-covariance-and-contravariance-a-simple-guide.html
 
 
 
 // https://docs.oracle.com/javase/tutorial/java/generics/inheritance.html
 Generics em Java
+
+Generic subtype and supertype Java
+https://www.codejava.net/java-core/collections/generics-with-subtyping-and-the-substitution-principle

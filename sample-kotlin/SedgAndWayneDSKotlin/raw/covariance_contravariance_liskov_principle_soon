@@ -1,0 +1,22 @@
+Covariance and Contravariance (CS)
+https://en.wikipedia.org/wiki/Covariance_and_contravariance_(computer_science)
+
+
+
+
+https://en.wikipedia.org/wiki/Behavioral_subtyping
+
+"Behavioral Subtyping": Em OO, o termo "Behavioral Subtyping" e a definicao do principio que SUBCLASSES devem satisfazer
+as expectativas de seus clientes que a acessam atraves duma referencia de sua SUPERCLASSE (List list = new ArrayList)
+nao so do ponto de vista de corretude sintática (Por exemplo, deve ser possivel acessar o comportamento da superclasse)
+mas tambem comportamental
+
+Exemplo: Imagine uma classe que represente a estrutura de dados Stack e uma Queue. Stack tem o comportamento LIFO (last in
+first out) e Queues o comportamento de FIFO (first in first out). Imagine que a implementacao dessas classes segue essa regra.
+Agora, se um desenvolvedor quiser implementar essas classes tal que Stack seja um subtipo de Queue, ele deveria manter
+os comportamentos padroes das classes, assim quando o cliente acessar um objeto  Stack atraves de uma referencia de Queue
+(Queue q = new Stack()) esse objeto deveria ter o comportamento de Queue (FIFO) e nao do objeto (LIFO).
+
+Entretanto, (segundo artigo na wiki)
+os compiladores da maioria das linguagens de programacao acabam implementando somente a checagem de tipo para manter a seguranca de tipo e o comportamento
+original acaba sendo ignorado. No exemplo citado acima o objeto "q" tera o comportamento de Stack e nao de Queue
