@@ -1,6 +1,13 @@
 package samples.behaviorsubtype;
 
 
+/**
+ * Fonte de estudo para o algoritmo de resize
+ * https://algs4.cs.princeton.edu/13stacks/ResizingArrayStack.java
+ *
+ *
+ * */
+
 public class SampleBehaviorSubtype {
 
     public static void main(String[] args) {

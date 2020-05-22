@@ -19,4 +19,12 @@ os comportamentos padroes das classes, assim quando o cliente acessar um objeto 
 
 Entretanto, (segundo artigo na wiki)
 os compiladores da maioria das linguagens de programacao acabam implementando somente a checagem de tipo para manter a seguranca de tipo e o comportamento
-original acaba sendo ignorado. No exemplo citado acima o objeto "q" tera o comportamento de Stack e nao de Queue
+original acaba sendo ignorado. No exemplo citado acima o objeto "q" tera o comportamento de Stack e nao de Queue.
+
+O exemplo acima viola o conceito de behavioral subtyping pois o comportamento de remocao de um Item numa Stack nao eh um subtipo de comportamento de uma Queue.
+
+Um Exemplo que nao Viola o conceitoÇ
+
+Imagine um tipo abstrato de colecao de objetos denominado Bag. Imagine agora que Bag defina um metodo get() para remocao de elementos, porem g() e abstrato.
+Se definirmos agora que Stack e Queue sao somente subtipos de Bag, e ambos implementam a sua maneira o metodo get() o conecito de "comportamento de subtipo"
+nao eh violado

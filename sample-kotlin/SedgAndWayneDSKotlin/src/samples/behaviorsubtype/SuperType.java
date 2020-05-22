@@ -35,7 +35,7 @@ class SuperType<T> {
     }
 
 
-    void clear() {
+    private void clear() {
         while (!isEmpty()) {
             pop();
         }
